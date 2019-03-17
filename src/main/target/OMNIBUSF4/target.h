@@ -105,8 +105,8 @@
 
 #if defined(OMNIBUSF4PRO) || defined(OMNIBUSF4V3)
   #define USE_BARO_BMP280
-  #define BMP280_SPI_BUS        BUS_SPI3
-  #define BMP280_CS_PIN         PB3 // v1
+  // #define BMP280_SPI_BUS        BUS_SPI3
+  // #define BMP280_CS_PIN         PB3 // v1
   // Support external barometers
   #define BARO_I2C_BUS          I2C_EXT_BUS
   #define USE_BARO_BMP085
@@ -246,9 +246,9 @@
     #define ADC_CHANNEL_3_PIN               PA0
 #endif
 
-#define CURRENT_METER_ADC_CHANNEL       ADC_CHN_1
+#define CURRENT_METER_ADC_CHANNEL       ADC_CHN_3
 #define VBAT_ADC_CHANNEL                ADC_CHN_2
-#define RSSI_ADC_CHANNEL                ADC_CHN_3
+#define RSSI_ADC_CHANNEL                ADC_CHN_1
 
 #define SENSORS_SET (SENSOR_ACC|SENSOR_MAG|SENSOR_BARO)
 

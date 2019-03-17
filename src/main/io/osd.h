@@ -152,6 +152,11 @@ typedef enum {
     OSD_VTX_POWER,
     OSD_ESC_RPM,
     OSD_ESC_TEMPERATURE,
+    OSD_RX_RSSI_DBM,
+    OSD_RX_LQ,
+    OSD_RX_SNR_DBM,
+    OSD_TX_MODE,
+    OSD_TX_POWER,
     OSD_ITEM_COUNT // MUST BE LAST
 } osd_items_e;
 
@@ -240,7 +245,7 @@ typedef struct osdConfig_s {
     uint16_t hud_radar_range_max;
     uint16_t hud_radar_nearest;
     uint8_t hud_wp_disp;
-    
+
     uint8_t left_sidebar_scroll; // from osd_sidebar_scroll_e
     uint8_t right_sidebar_scroll; // from osd_sidebar_scroll_e
     uint8_t sidebar_scroll_arrows;

@@ -1270,7 +1270,7 @@ static bool osdDrawSingleElement(uint8_t item)
     uint8_t elemPosX = OSD_X(pos);
     uint8_t elemPosY = OSD_Y(pos);
     textAttributes_t elemAttr = TEXT_ATTRIBUTES_NONE;
-    char buff[32];
+    char buff[32] = {0};
 
     switch (item) {
     case OSD_RSSI_VALUE:
@@ -1703,6 +1703,43 @@ static bool osdDrawSingleElement(uint8_t item)
             displayWriteWithAttr(osdDisplayPort, elemPosX, elemPosY, buff, elemAttr);
             return true;
         }
+
+    case OSD_RX_RSSI_DBM:
+        buff[0] = SYM_RSSI;
+        tfp_sprintf(buff + 1, "%4d", rxLinkStatistics.uplinkRSSI);
+        break;
+
+    case OSD_RX_LQ:
+        buff[0] = SYM_RSSI;
+        tfp_sprintf(buff + 1, "%d:%3d", rxLinkStatistics.rfMode, rxLinkStatistics.uplinkLQ);
+        break;
+
+    case OSD_RX_SNR_DBM:
+        buff[0] = SYM_RSSI;
+        tfp_sprintf(buff + 1, "%4d", rxLinkStatistics.uplinkSNR);
+        break;
+
+    case OSD_TX_MODE: {
+        const char* str;
+        switch (rxLinkStatistics.rfMode) {
+            case 0:
+                str = "LOW";
+                break;
+            case 2:
+                str = "HIGH";
+                break;
+            default:
+                str = "NORM";
+                break;
+        }
+        tfp_sprintf(buff, str);
+        break;
+    }
+
+    case OSD_TX_POWER: {
+        tfp_sprintf(buff, "%4d", rxLinkStatistics.uplinkTXPower);
+        break;
+    }
 
     case OSD_CROSSHAIRS: // Hud is a sub-element of the crosshair
 
@@ -2626,6 +2663,12 @@ void pgResetFn_osdConfig(osdConfig_t *osdConfig)
 
     osdConfig->item_pos[0][OSD_CRAFT_NAME] = OSD_POS(20, 2);
     osdConfig->item_pos[0][OSD_VTX_CHANNEL] = OSD_POS(8, 6);
+
+    osdConfig->item_pos[0][OSD_RX_RSSI_DBM] = OSD_POS(23, 3);
+    osdConfig->item_pos[0][OSD_RX_LQ] = OSD_POS(23, 4);
+    osdConfig->item_pos[0][OSD_RX_SNR_DBM] = OSD_POS(25, 5);
+    osdConfig->item_pos[0][OSD_TX_MODE] = OSD_POS(19, 4);
+    osdConfig->item_pos[0][OSD_TX_POWER] = OSD_POS(22, 6);
 
     osdConfig->item_pos[0][OSD_ONTIME] = OSD_POS(23, 8);
     osdConfig->item_pos[0][OSD_FLYTIME] = OSD_POS(23, 9);
