@@ -1273,7 +1273,7 @@ static bool osdDrawSingleElement(uint8_t item)
     uint8_t elemPosX = OSD_X(pos);
     uint8_t elemPosY = OSD_Y(pos);
     textAttributes_t elemAttr = TEXT_ATTRIBUTES_NONE;
-    char buff[32];
+    char buff[32] = {0};
 
     switch (item) {
     case OSD_RSSI_VALUE:
@@ -1714,69 +1714,42 @@ static bool osdDrawSingleElement(uint8_t item)
             return true;
         }
 
-    case OSD_RX_UPLINK_RSSI_ANT1:
+    case OSD_RX_RSSI_DBM:
         buff[0] = SYM_RSSI;
-        tfp_sprintf(buff + 1, "%2d", rxLinkStatistics.uplinkRSSIAnt1);
+        tfp_sprintf(buff + 1, "%4ddBm", rxLinkStatistics.uplinkRSSI);
         break;
 
-    case OSD_RX_UPLINK_RSSI_ANT2:
+    case OSD_RX_LQ:
         buff[0] = SYM_RSSI;
-        tfp_sprintf(buff + 1, "%2d", rxLinkStatistics.uplinkRSSIAnt2);
+        tfp_sprintf(buff + 1, "%3d", rxLinkStatistics.uplinkLQ);
         break;
 
-    case OSD_RX_UPLINK_LQ:
+    case OSD_RX_SNR_DBM:
         buff[0] = SYM_RSSI;
-        tfp_sprintf(buff + 1, "%3d%%", rxLinkStatistics.uplinkLQ);
+        tfp_sprintf(buff + 1, "%4ddBm", rxLinkStatistics.uplinkSNR);
         break;
 
-    case OSD_RX_UPLINK_SNR:
-        // TODO: lowercase 'd' here.
-        tfp_sprintf(buff, "%4dDB", rxLinkStatistics.uplinkSNR);
-        break;
-
-    case OSD_RX_ACTIVE_ANTENNA:
-        tfp_sprintf(buff, "ANT%1d", rxLinkStatistics.activeAntenna+1);
-        break;
-
-    case OSD_RX_RF_MODE:
-        {
-            const char* str;
-            switch (rxLinkStatistics.rfMode) {
-                case 0:
-                  str = "LOW";
-                  break;
-                case 2:
-                  str = "HIGH";
-                  break;
-                default:
-                  str = "NORM";
-                  break;
-            }
-            tfp_sprintf(buff, str);
-            break;
+    case OSD_TX_RF_MODE: {
+        const char* str;
+        switch (rxLinkStatistics.rfMode) {
+            case 0:
+                str = "LOW";
+                break;
+            case 2:
+                str = "HIGH";
+                break;
+            default:
+                str = "NORM";
+                break;
         }
-
-    case OSD_RX_UPLINK_TX_POWER:
-        {
-            // TODO: lowercase 'm' here for 'mW'
-            tfp_sprintf(buff, "%d.%03dW\n", rxLinkStatistics.uplinkTXPower / 1000, rxLinkStatistics.uplinkTXPower % 1000);
-            break;
-        }
-
-    case OSD_RX_DOWNLINK_RSSI:
-        buff[0] = SYM_RSSI;
-        tfp_sprintf(buff + 1, "%2d", rxLinkStatistics.downlinkRSSI);
+        tfp_sprintf(buff, str);
         break;
+    }
 
-    case OSD_RX_DOWNLINK_LQ:
-        buff[0] = SYM_RSSI;
-        tfp_sprintf(buff + 1, "%3d%%", rxLinkStatistics.downlinkLQ);
+    case OSD_TX_POWER: {
+        tfp_sprintf(buff, "%03dmW\n", rxLinkStatistics.uplinkTXPower);
         break;
-
-    case OSD_RX_DOWNLINK_SNR:
-        // TODO: lowercase 'd' here
-        tfp_sprintf(buff, "%4dDB", rxLinkStatistics.downlinkSNR);
-        break;
+    }
 
     case OSD_CROSSHAIRS: // Hud is a sub-element of the crosshair
 
@@ -2667,16 +2640,11 @@ void pgResetFn_osdConfig(osdConfig_t *osdConfig)
     osdConfig->item_pos[0][OSD_CRAFT_NAME] = OSD_POS(20, 2);
     osdConfig->item_pos[0][OSD_VTX_CHANNEL] = OSD_POS(8, 6);
 
-    osdConfig->item_pos[0][OSD_RX_ACTIVE_ANTENNA] = OSD_POS(19, 3);
-    osdConfig->item_pos[0][OSD_RX_UPLINK_RSSI_ANT1] = OSD_POS(23, 3);
-    osdConfig->item_pos[0][OSD_RX_UPLINK_RSSI_ANT2] = OSD_POS(26, 3);
-    osdConfig->item_pos[0][OSD_RX_UPLINK_LQ] = OSD_POS(23, 4);
-    osdConfig->item_pos[0][OSD_RX_UPLINK_SNR] = OSD_POS(25, 5);
-    osdConfig->item_pos[0][OSD_RX_RF_MODE] = OSD_POS(19, 4);
-    osdConfig->item_pos[0][OSD_RX_UPLINK_TX_POWER] = OSD_POS(22, 6);
-    osdConfig->item_pos[0][OSD_RX_DOWNLINK_RSSI] = OSD_POS(23, 7);
-    osdConfig->item_pos[0][OSD_RX_DOWNLINK_LQ] = OSD_POS(23, 8);
-    osdConfig->item_pos[0][OSD_RX_DOWNLINK_SNR] = OSD_POS(25, 9);
+    osdConfig->item_pos[0][OSD_RX_RSSI_DBM] = OSD_POS(23, 3);
+    osdConfig->item_pos[0][OSD_RX_LQ] = OSD_POS(23, 4);
+    osdConfig->item_pos[0][OSD_RX_SNR_DBM] = OSD_POS(25, 5);
+    osdConfig->item_pos[0][OSD_TX_RF_MODE] = OSD_POS(19, 4);
+    osdConfig->item_pos[0][OSD_TX_POWER] = OSD_POS(22, 6);
 
     osdConfig->item_pos[0][OSD_ONTIME] = OSD_POS(23, 8);
     osdConfig->item_pos[0][OSD_FLYTIME] = OSD_POS(23, 9);

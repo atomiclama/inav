@@ -174,25 +174,11 @@ typedef enum {
 } rssiSource_e;
 
 typedef struct rxLinkStatistics_s {
-    // RSSI values for individual RX antennas
-    uint8_t     uplinkRSSIAnt1;
-    uint8_t     uplinkRSSIAnt2;
-    // A protocol specific measure of the link quality in [0..100]
-    uint8_t     uplinkLQ;
-    // The SNR of the uplink in dB
-    int8_t      uplinkSNR;
-    // Which antenna is in use [0..1]
-    uint8_t     activeAntenna;
-    // A protocol specific measure of the transmission bandwidth in [0..2]
-    uint8_t     rfMode;
-    // The TX power in mW
-    uint16_t    uplinkTXPower;
-    // The telemetry downlink RSSI
-    uint8_t     downlinkRSSI;
-    // A protocol specific measure of the downlink quality
-    uint8_t     downlinkLQ;
-    // The SNR of the downlink in dB
-    int8_t      downlinkSNR;
+    int8_t      uplinkRSSI;     // RSSI value dBm of current active antanna
+    uint8_t     uplinkLQ;       // A protocol specific measure of the link quality in [0..100]
+    int8_t      uplinkSNR;      // The SNR of the uplink in dBm
+    uint8_t     rfMode;         // A protocol specific measure of the transmission bandwidth in [0..2]
+    uint16_t    uplinkTXPower;  // power in mW
 } rxLinkStatistics_t;
 
 extern rxRuntimeConfig_t rxRuntimeConfig; //!!TODO remove this extern, only needed once for channelCount
