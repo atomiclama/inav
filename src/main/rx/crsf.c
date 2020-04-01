@@ -230,22 +230,12 @@ STATIC_UNIT_TESTED uint8_t crsfFrameStatus(rxRuntimeConfig_t *rxRuntimeConfig)
             crsfFrame.frame.frameLength = CRSF_FRAME_LINK_STATISTICS_PAYLOAD_SIZE + CRSF_FRAME_LENGTH_TYPE_CRC;
 
             const crsfPayloadLinkStatistics_t* linkStats = (crsfPayloadLinkStatistics_t*)&crsfFrame.frame.payload;
-            rxLinkStatistics.uplinkRSSIAnt1 = linkStats->uplinkRSSIAnt1;
-            rxLinkStatistics.uplinkRSSIAnt2 = linkStats->uplinkRSSIAnt2;
+            rxLinkStatistics.uplinkRSSI = linkStats->activeAntenna ? linkStats->uplinkRSSIAnt2 : linkStats->uplinkRSSIAnt1;
             rxLinkStatistics.uplinkLQ = linkStats->uplinkLQ;
             rxLinkStatistics.uplinkSNR = linkStats->uplinkSNR;
-            rxLinkStatistics.activeAntenna = linkStats->activeAntenna;
             rxLinkStatistics.rfMode = linkStats->rfMode;
             rxLinkStatistics.uplinkTXPower = crsfPowerStates[linkStats->uplinkTXPower];
-            rxLinkStatistics.downlinkRSSI = linkStats->downlinkRSSI;
-            rxLinkStatistics.downlinkLQ = linkStats->downlinkLQ;
-            rxLinkStatistics.downlinkSNR = linkStats->downlinkSNR;
-
-            // Inject link quality into channel 17
-            crsfChannelData[16] = scaleRange(constrain(linkStats->uplinkLQ, 0, 100), 0, 100, 191, 1791);    // will map to [1000;2000] range
-
-            lqTrackerSet(rxRuntimeConfig->lqTracker, scaleRange(constrain(linkStats->uplinkLQ, 0, 100), 0, 100, 0, RSSI_MAX_VALUE));
-
+  
             // This is not RC channels frame, update channel value but don't indicate frame completion
             return RX_FRAME_PENDING;
         }
