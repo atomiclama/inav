@@ -230,12 +230,12 @@ STATIC_UNIT_TESTED uint8_t crsfFrameStatus(rxRuntimeConfig_t *rxRuntimeConfig)
             crsfFrame.frame.frameLength = CRSF_FRAME_LINK_STATISTICS_PAYLOAD_SIZE + CRSF_FRAME_LENGTH_TYPE_CRC;
 
             const crsfPayloadLinkStatistics_t* linkStats = (crsfPayloadLinkStatistics_t*)&crsfFrame.frame.payload;
-            rxLinkStatistics.uplinkRSSI = linkStats->activeAntenna ? linkStats->uplinkRSSIAnt2 : linkStats->uplinkRSSIAnt1;
+            rxLinkStatistics.uplinkRSSI = -1* (linkStats->activeAntenna ? linkStats->uplinkRSSIAnt2 : linkStats->uplinkRSSIAnt1);
             rxLinkStatistics.uplinkLQ = linkStats->uplinkLQ;
             rxLinkStatistics.uplinkSNR = linkStats->uplinkSNR;
             rxLinkStatistics.rfMode = linkStats->rfMode;
             rxLinkStatistics.uplinkTXPower = crsfPowerStates[linkStats->uplinkTXPower];
-  
+
             // This is not RC channels frame, update channel value but don't indicate frame completion
             return RX_FRAME_PENDING;
         }
