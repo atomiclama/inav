@@ -153,7 +153,7 @@ typedef struct rxRuntimeConfig_s {
     rcReadRawDataFnPtr rcReadRawFn;
     rcFrameStatusFnPtr rcFrameStatusFn;
     rcProcessFrameFnPtr rcProcessFrameFn;
-    rxLinkQualityTracker_e * lqTracker;     // Pointer to a 
+    rxLinkQualityTracker_e * lqTracker;     // Pointer to a
     uint16_t *channelData;
     void *frameData;
 } rxRuntimeConfig_t;
@@ -174,7 +174,7 @@ typedef enum {
 } rssiSource_e;
 
 typedef struct rxLinkStatistics_s {
-    int8_t      uplinkRSSI;     // RSSI value dBm of current active antanna
+    int16_t     uplinkRSSI;     // RSSI value dBm of current active antanna
     uint8_t     uplinkLQ;       // A protocol specific measure of the link quality in [0..100]
     int8_t      uplinkSNR;      // The SNR of the uplink in dBm
     uint8_t     rfMode;         // A protocol specific measure of the transmission bandwidth in [0..2]

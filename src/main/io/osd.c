@@ -1716,17 +1716,17 @@ static bool osdDrawSingleElement(uint8_t item)
 
     case OSD_RX_RSSI_DBM:
         buff[0] = SYM_RSSI;
-        tfp_sprintf(buff + 1, "%4ddBm", rxLinkStatistics.uplinkRSSI);
+        tfp_sprintf(buff + 1, "%4d", rxLinkStatistics.uplinkRSSI);
         break;
 
     case OSD_RX_LQ:
         buff[0] = SYM_RSSI;
-        tfp_sprintf(buff + 1, "%3d", rxLinkStatistics.uplinkLQ);
+        tfp_sprintf(buff + 1, "%d:%3d", rxLinkStatistics.rfMode, rxLinkStatistics.uplinkLQ);
         break;
 
     case OSD_RX_SNR_DBM:
         buff[0] = SYM_RSSI;
-        tfp_sprintf(buff + 1, "%4ddBm", rxLinkStatistics.uplinkSNR);
+        tfp_sprintf(buff + 1, "%4d", rxLinkStatistics.uplinkSNR);
         break;
 
     case OSD_TX_RF_MODE: {
@@ -1747,7 +1747,7 @@ static bool osdDrawSingleElement(uint8_t item)
     }
 
     case OSD_TX_POWER: {
-        tfp_sprintf(buff, "%03dmW\n", rxLinkStatistics.uplinkTXPower);
+        tfp_sprintf(buff, "%4d", rxLinkStatistics.uplinkTXPower);
         break;
     }
 
