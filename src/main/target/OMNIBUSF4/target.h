@@ -246,9 +246,9 @@
     #define ADC_CHANNEL_3_PIN               PA0
 #endif
 
-#define CURRENT_METER_ADC_CHANNEL       ADC_CHN_1
+#define CURRENT_METER_ADC_CHANNEL       ADC_CHN_3
 #define VBAT_ADC_CHANNEL                ADC_CHN_2
-#define RSSI_ADC_CHANNEL                ADC_CHN_3
+#define RSSI_ADC_CHANNEL                ADC_CHN_1
 
 #define SENSORS_SET (SENSOR_ACC|SENSOR_MAG|SENSOR_BARO)
 

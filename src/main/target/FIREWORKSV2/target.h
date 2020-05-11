@@ -26,7 +26,7 @@
 
 #if defined(OMNIBUSF4V6)
 #define TARGET_BOARD_IDENTIFIER "OBV6"
-#else 
+#else
 #define TARGET_BOARD_IDENTIFIER "FWX2"
 #endif
 
@@ -104,10 +104,12 @@
 
 #define USE_BARO
 #define USE_BARO_BMP280
-#define BMP280_SPI_BUS          BUS_SPI3
-#define BMP280_CS_PIN           PB3
 #if defined(OMNIBUSF4V6)
 #define BARO_I2C_BUS            BUS_I2C1
+#else
+#define BMP280_SPI_BUS          BUS_SPI3
+#define BMP280_CS_PIN           PB3
+
 #endif
 
 #if defined(OMNIBUSF4V6)
