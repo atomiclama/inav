@@ -1719,7 +1719,7 @@ static bool osdDrawSingleElement(uint8_t item)
         tfp_sprintf(buff + 1, "%4d", rxLinkStatistics.uplinkSNR);
         break;
 
-    case OSD_TX_RF_MODE: {
+    case OSD_RX_MODE: {
         const char* str;
         switch (rxLinkStatistics.rfMode) {
             case 0:
@@ -1736,7 +1736,7 @@ static bool osdDrawSingleElement(uint8_t item)
         break;
     }
 
-    case OSD_TX_POWER: {
+    case OSD_RX_TX_POWER: {
         tfp_sprintf(buff, "%4d", rxLinkStatistics.uplinkTXPower);
         break;
     }
@@ -2667,8 +2667,8 @@ void pgResetFn_osdConfig(osdConfig_t *osdConfig)
     osdConfig->item_pos[0][OSD_RX_RSSI_DBM] = OSD_POS(23, 3);
     osdConfig->item_pos[0][OSD_RX_LQ] = OSD_POS(23, 4);
     osdConfig->item_pos[0][OSD_RX_SNR_DBM] = OSD_POS(25, 5);
-    osdConfig->item_pos[0][OSD_TX_RF_MODE] = OSD_POS(19, 4);
-    osdConfig->item_pos[0][OSD_TX_POWER] = OSD_POS(22, 6);
+    osdConfig->item_pos[0][OSD_RX_MODE] = OSD_POS(19, 4);
+    osdConfig->item_pos[0][OSD_RX_TX_POWER] = OSD_POS(22, 6);
 
     osdConfig->item_pos[0][OSD_ONTIME] = OSD_POS(23, 8);
     osdConfig->item_pos[0][OSD_FLYTIME] = OSD_POS(23, 9);
