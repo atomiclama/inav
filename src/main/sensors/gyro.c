@@ -232,7 +232,7 @@ static void initGyroFilter(filterApplyFnPtr *applyFn, filter_t state[], uint8_t 
 {
     *applyFn = nullFilterApply;
     if (cutoff > 0) {
-        switch (type) 
+        switch (type)
         {
             case FILTER_PT1:
                 *applyFn = (filterApplyFnPtr)pt1FilterApply;
@@ -254,7 +254,7 @@ static void gyroInitFilters(void)
 {
     STATIC_FASTRAM biquadFilter_t gyroFilterNotch_1[XYZ_AXIS_COUNT];
     notchFilter1ApplyFn = nullFilterApply;
-    
+
     initGyroFilter(&gyroLpf2ApplyFn, gyroLpf2State, gyroConfig()->gyro_stage2_lowpass_type, gyroConfig()->gyro_stage2_lowpass_hz);
     initGyroFilter(&gyroLpfApplyFn, gyroLpfState, gyroConfig()->gyro_soft_lpf_type, gyroConfig()->gyro_soft_lpf_hz);
 
@@ -310,7 +310,7 @@ bool gyroInit(void)
 #ifdef USE_DYNAMIC_FILTERS
     dynamicGyroNotchFiltersInit(&dynamicGyroNotchState);
     gyroDataAnalyseStateInit(
-        &gyroAnalyseState, 
+        &gyroAnalyseState,
         gyroConfig()->dynamicGyroNotchMinHz,
         gyroConfig()->dynamicGyroNotchRange,
         getLooptime()
@@ -428,6 +428,7 @@ void FAST_CODE NOINLINE gyroUpdate()
         float gyroADCf = gyro.gyroADCf[axis];
 
         DEBUG_SET(DEBUG_GYRO, axis, lrintf(gyroADCf));
+        DEBUG_SET(DEBUG_GYRO, axis+3, gyroDev[0].gyroADCRaw[axis]);
 
 #ifdef USE_RPM_FILTER
         DEBUG_SET(DEBUG_RPM_FILTER, axis, gyroADCf);
@@ -456,8 +457,8 @@ void FAST_CODE NOINLINE gyroUpdate()
 
         if (gyroAnalyseState.filterUpdateExecute) {
             dynamicGyroNotchFiltersUpdate(
-                &dynamicGyroNotchState, 
-                gyroAnalyseState.filterUpdateAxis, 
+                &dynamicGyroNotchState,
+                gyroAnalyseState.filterUpdateAxis,
                 gyroAnalyseState.filterUpdateFrequency
             );
         }
